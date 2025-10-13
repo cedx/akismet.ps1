@@ -1,0 +1,19 @@
+name: continuous-integration
+on: push
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch sources
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: Install-PSResource Pester -TrustRepository
+      - name: Run tests
+        run: ./invoke.ps1 Test
+        env:
+          AKISMET_API_KEY: ${{secrets.AKISMET_API_KEY}}
