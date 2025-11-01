@@ -8,6 +8,7 @@
 	DefaultCommandPrefix = "Akismet"
 	Description = "Parse and format to LCOV your code coverage reports."
 	GUID = "f986768a-1709-4142-815e-ce3be0db833e"
+	PowerShellVersion = "7.5"
 
 	AliasesToExport = @()
 	CmdletsToExport = @()
