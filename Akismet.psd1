@@ -1,14 +1,14 @@
 @{
+	DefaultCommandPrefix = "Akismet"
 	ModuleVersion = "0.1.0"
+	PowerShellVersion = "7.5"
 	RootModule = "src/Main.psm1"
 
 	Author = "Cédric Belin <cedx@outlook.com>"
 	CompanyName = "Cedric-Belin.fr"
 	Copyright = "© Cédric Belin"
-	DefaultCommandPrefix = "Akismet"
 	Description = "Parse and format to LCOV your code coverage reports."
 	GUID = "f986768a-1709-4142-815e-ce3be0db833e"
-	PowerShellVersion = "7.5"
 
 	AliasesToExport = @()
 	CmdletsToExport = @()
