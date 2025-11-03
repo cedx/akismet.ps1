@@ -1,4 +1,4 @@
-using namespace System.Globalization
+﻿using namespace System.Globalization
 using module ../src/Author.psm1
 using module ../src/Comment.psm1
 

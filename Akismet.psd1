@@ -1,4 +1,4 @@
-@{
+﻿@{
 	DefaultCommandPrefix = "Akismet"
 	ModuleVersion = "0.1.0"
 	PowerShellVersion = "7.4"

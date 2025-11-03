@@ -63,7 +63,7 @@ class Client {
 	.PARAMETER Blog
 		The front page or home URL of the instance making requests.
 	#>
-	Comment([string] $ApiKey, [Blog] $Blog) {
+	Client([string] $ApiKey, [Blog] $Blog) {
 		$this.ApiKey = $ApiKey
 		$this.BaseUrl = "https://rest.akismet.com/"
 		$this.Blog = $Blog
@@ -79,7 +79,7 @@ class Client {
 	.PARAMETER BaseUrl
 		The base URL of the remote API endpoint.
 	#>
-	Comment([string] $ApiKey, [Blog] $Blog, [string] $BaseUrl) {
+	Client([string] $ApiKey, [Blog] $Blog, [string] $BaseUrl) {
 		$this.ApiKey = $ApiKey
 		$this.BaseUrl = $BaseUrl.EndsWith("/") ? $BaseUrl : "$BaseUrl/"
 		$this.Blog = $Blog
@@ -96,10 +96,8 @@ class Client {
 	[CheckResult] CheckComment([Comment] $Comment) {
 		$response = $this.Fetch("1.1/comment-check", $Comment.ToHashtable())
 		if ($response.Content -eq "false") { return [CheckResult]::Ham }
-
-		$proTips = @()
-		if (-not $response.Headers.TryGetValues("X-akismet-pro-tip", [ref] $proTips)) { return [CheckResult]::Spam }
-		return $proTips[0] -eq "discard" ? [CheckResult]::PervasiveSpam : [CheckResult]::Spam
+		if (-not $response.Headers["X-akismet-pro-tip"]) { return [CheckResult]::Spam }
+		return $response.Headers["X-akismet-pro-tip"][0] -eq "discard" ? [CheckResult]::PervasiveSpam : [CheckResult]::Spam
 	}
 
 	<#
@@ -151,10 +149,9 @@ class Client {
 		if ($this.IsTest) { $body.is_test = "1" }
 		foreach ($key in $Fields.Keys) { $body.$key = $Fields.$key }
 
-		$headers = @()
 		$response = Invoke-WebRequest ([uri]::new($this.BaseUrl, $EndPoint)) -Method Post -Body $body -UserAgent $this.UserAgent
-		if ($response.Headers.TryGetValues("X-akismet-alert-msg", [ref] $headers)) { throw [HttpRequestException] $headers[0] }
-		if ($response.Headers.TryGetValues("X-akismet-debug-help", [ref] $headers)) { throw [HttpRequestException] $headers[0] }
+		if ($response.Headers["X-akismet-alert-msg"]) { throw [HttpRequestException] $response.Headers["X-akismet-alert-msg"][0] }
+		if ($response.Headers["X-akismet-debug-help"]) { throw [HttpRequestException] $response.Headers["X-akismet-debug-help"][0] }
 		return $response
 	}
 }
