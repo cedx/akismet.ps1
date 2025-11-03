@@ -37,7 +37,7 @@ class Blog {
 
 	<#
 	.SYNOPSIS
-		Converts this object into a dictionary.
+		Converts this object into a hashtable.
 	.OUTPUTS
 		The hashtable corresponding to this object.
 	#>
