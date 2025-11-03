@@ -5,4 +5,6 @@ using module ../src/Author.psm1
 	Tests the features of the `Author` module.
 #>
 Describe "Author" {
+	Context "ToHashtable" {
+	}
 }

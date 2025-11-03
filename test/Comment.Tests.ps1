@@ -5,4 +5,6 @@ using module ../src/Comment.psm1
 	Tests the features of the `Comment` module.
 #>
 Describe "Comment" {
+	Context "ToHashtable" {
+	}
 }
