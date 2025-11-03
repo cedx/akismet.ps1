@@ -19,7 +19,11 @@
 	)
 
 	NestedModules = @(
-
+		"src/Author.psm1"
+		"src/Blog.psm1"
+		"src/CheckResult.psm1"
+		"src/Client.psm1"
+		"src/Commen.psm1"
 	)
 
 	PrivateData = @{
