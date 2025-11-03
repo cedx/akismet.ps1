@@ -30,7 +30,7 @@ class Comment {
 	.SYNOPSIS
 		The UTC timestamp of the creation of the comment.
 	#>
-	[datetime] $Date = $null
+	[Nullable[datetime]] $Date = $null
 
 	<#
 	.SYNOPSIS
@@ -42,7 +42,7 @@ class Comment {
 	.SYNOPSIS
 		The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
 	#>
-	[datetime] $PostModified = $null
+	[Nullable[datetime]] $PostModified = $null
 
 	<#
 	.SYNOPSIS
@@ -82,9 +82,9 @@ class Comment {
 		$map = $this.Author.ToHashtable()
 		if ($this.Content) { $map.comment_content = $this.Content }
 		# TODO if ($this.Context) { $map.comment_context = $this.Context -join "," }
-		if ($this.Date) { $map.comment_date_gmt = $this.Date.Value.ToUniversalTime().ToString("o") }
+		if ($this.Date) { $map.comment_date_gmt = $this.Date.ToUniversalTime().ToString("o") }
 		if ($this.Permalink) { $map.permalink = $this.Permalink.ToString() }
-		if ($this.PostModified) { $map.comment_post_modified_gmt = $this.PostModified.Value.ToUniversalTime().ToString("o") }
+		if ($this.PostModified) { $map.comment_post_modified_gmt = $this.PostModified.ToUniversalTime().ToString("o") }
 		if ($this.RecheckReason) { $map.recheck_reason = $this.RecheckReason }
 		if ($this.Referrer) { $map.referrer = $this.Referrer.ToString() }
 		if ($this.Type) { $map.comment_type = $this.Type }
