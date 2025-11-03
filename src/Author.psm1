@@ -23,7 +23,7 @@ class Author {
 		The author's name.
 		If you set it to `"viagra-test-123"`, Akismet will always return `$true`.
 	#>
-	[string] $Name = ""
+	[string] $Name
 
 	<#
 	.SYNOPSIS
@@ -52,6 +52,18 @@ class Author {
 	#>
 	Author([ipaddress] $IPAddress) {
 		$this.IPAddress = $IPAddress
+		$this.Name = ""
+	}
+
+	<#
+	.SYNOPSIS
+		Creates a new author.
+	.PARAMETER IPAddress
+		The author's IP address.
+	#>
+	Author([string] $Name, [ipaddress] $IPAddress) {
+		$this.IPAddress = $IPAddress
+		$this.Name = $Name
 	}
 
 	<#

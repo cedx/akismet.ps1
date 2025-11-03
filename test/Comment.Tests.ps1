@@ -15,8 +15,7 @@ Describe "Comment" {
 		}
 
 		It "should return a non-empty map with an initialized instance" {
-			$author = [Author]::new("192.168.0.1")
-			$author.Name = "Cédric Belin"
+			$author = [Author]::new("Cédric Belin", "192.168.0.1")
 			$author.UserAgent = "Doom/6.6.6"
 
 			$comment = [Comment]::new($author)

@@ -14,8 +14,7 @@ Describe "Client" {
 		$client = [Client]::new($Env:AKISMET_API_KEY, [Blog]::new("https://github.com/cedx/akismet.ps1"))
 		$client.IsTest = $true
 
-		$hamAuthor = [Author]::new("192.168.0.1")
-		$hamAuthor.Name = "Akismet"
+		$hamAuthor = [Author]::new("Akismet", "192.168.0.1")
 		$hamAuthor.Role = [AuthorRole]::Administrator
 		$hamAuthor.Url = "https://cedric-belin.fr"
 		$hamAuthor.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:144.0) Gecko/20100101 Firefox/144.0"
@@ -25,9 +24,8 @@ Describe "Client" {
 		$ham.Referrer = "https://www.powershellgallery.com/packages/Akismet"
 		$ham.Type = [CommentType]::Comment
 
-		$spamAuthor = [Author]::new("127.0.0.1")
+		$spamAuthor = [Author]::new("viagra-test-123", "127.0.0.1")
 		$spamAuthor.Email = "akismet-guaranteed-spam@example.com"
-		$spamAuthor.Name = "viagra-test-123"
 		$spamAuthor.UserAgent = "Spam Bot/6.6.6"
 
 		[SuppressMessage("PSUseDeclaredVarsMoreThanAssignments", "")]

@@ -13,8 +13,7 @@ Describe "Author" {
 		}
 
 		It "should return a non-empty map with an initialized instance" {
-			$author = [Author]::new("192.168.0.1")
-			$author.Name = "Cédric Belin"
+			$author = [Author]::new("Cédric Belin", "192.168.0.1")
 			$author.Email = "contact@cedric-belin.fr"
 			$author.Url = "https://cedric-belin.fr"
 			$author.UserAgent = "Mozilla/5.0"
