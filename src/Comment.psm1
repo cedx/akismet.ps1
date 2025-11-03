@@ -30,19 +30,19 @@ class Comment {
 	.SYNOPSIS
 		The UTC timestamp of the creation of the comment.
 	#>
-	[Nullable[datetime]] $Date = $null
+	[Nullable[datetime]] $Date
 
 	<#
 	.SYNOPSIS
 		The permanent location of the entry the comment is submitted to.
 	#>
-	[uri] $Permalink = $null
+	[uri] $Permalink
 
 	<#
 	.SYNOPSIS
 		The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
 	#>
-	[Nullable[datetime]] $PostModified = $null
+	[Nullable[datetime]] $PostModified
 
 	<#
 	.SYNOPSIS
@@ -54,7 +54,7 @@ class Comment {
 	.SYNOPSIS
 		The URL of the webpage that linked to the entry being requested.
 	#>
-	[uri] $Referrer = $null
+	[uri] $Referrer
 
 	<#
 	.SYNOPSIS

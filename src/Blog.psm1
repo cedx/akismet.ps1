@@ -10,7 +10,7 @@ class Blog {
 	.SYNOPSIS
 		The character encoding for the values included in comments.
 	#>
-	[Encoding] $Charset = $null
+	[Encoding] $Charset
 
 	<#
 	.SYNOPSIS

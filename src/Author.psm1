@@ -36,7 +36,7 @@ class Author {
 	.SYNOPSIS
 		The URL of the author's website.
 	#>
-	[uri] $Url = $null
+	[uri] $Url
 
 	<#
 	.SYNOPSIS
