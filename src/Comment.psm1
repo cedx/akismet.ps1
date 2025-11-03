@@ -23,6 +23,7 @@ class Comment {
 	.SYNOPSIS
 		The context in which this comment was posted.
 	#>
+	[ValidateNotNull()]
 	[string[]] $Context = @()
 
 	<#

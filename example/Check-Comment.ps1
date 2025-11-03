@@ -26,7 +26,7 @@ try {
 	});
 
 	const result = await new Client("123YourAPIKey", blog).checkComment(comment);
-	console.log(result == CheckResult.Ham ? "The comment is ham." : "The comment is spam.");
+	console.log(result -eq CheckResult.Ham ? "The comment is ham." : "The comment is spam.");
 }
 catch (error) {
 	console.error(error instanceof Error ? error.message : error);
