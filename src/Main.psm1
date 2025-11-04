@@ -90,6 +90,12 @@ function New-Blog {
 <#
 .SYNOPSIS
 	Creates a new Akismet client.
+.PARAMETER ApiKey
+	The Akismet API key.
+.PARAMETER Blog
+	The front page or home URL of the instance making requests.
+.PARAMETER IsTest
+	Value indicating whether the client operates in test mode.
 .PARAMETER Uri
 	The base URL of the remote API endpoint.
 .OUTPUTS
@@ -99,15 +105,51 @@ function New-Client {
 	[CmdletBinding()]
 	[OutputType([Client])]
 	param (
+		[Parameter(Mandatory, Position = 0)]
+		[ValidateNotNullOrWhiteSpace()]
+		[string] $ApiKey,
+
+		[Parameter(Mandatory, Position = 1)]
+		[ValidateNotNull()]
+		[Blog] $Blog,
+
+		[Parameter()]
+		[bool] $IsTest = $false,
 
 		[ValidateNotNull()]
-		[uri] $Uri = "https://rest.akismet.com/"
+		[uri] $Uri = "https://rest.akismet.com/",
+
+		[ValidateNotNullOrWhiteSpace()]
+		[string] $UserAgent = "PowerShell/$($PSVersionTable.PSVersion) | Akismet/$([Client]::Version)"
 	)
+
+	$client = [Client]::new($ApiKey, $Blog, $Uri)
+	$client.IsTest = $IsTest
+	$client.UserAgent = $UserAgent
+	$client
 }
 
 <#
 .SYNOPSIS
 	Creates a new comment.
+.PARAMETER Content
+	The comment's content.
+.PARAMETER Author
+	The comment's author.
+.PARAMETER Context
+	The context in which this comment was posted.
+.PARAMETER Date
+	The UTC timestamp of the creation of the comment.
+.PARAMETER Permalink
+	The permanent location of the entry the comment is submitted to.
+.PARAMETER PostModified
+	The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
+.PARAMETER RecheckReason
+	A string describing why the content is being rechecked.
+.PARAMETER Referrer
+	The URL of the webpage that linked to the entry being requested.
+.PARAMETER Type
+	The comment's type.
 .OUTPUTS
 	The newly created comment.
 #>
@@ -115,10 +157,42 @@ function New-Comment {
 	[CmdletBinding()]
 	[OutputType([Comment])]
 	param (
+		[Parameter(Position = 0)]
+		[string] $Content = "",
 
+		[Parameter(Mandatory)]
+		[ValidateNotNull()]
+		[Author] $Author,
+
+		[ValidateNotNull()]
+		[string[]] $Context = @(),
+
+		[Parameter()]
+		[Nullable[datetime]] $Date,
+
+		[Parameter()]
+		[uri] $Permalink,
+
+		[Parameter()]
+		[Nullable[datetime]] $PostModified,
+
+		[Parameter()]
+		[string] $RecheckReason = "",
+
+		[Parameter()]
+		[uri] $Referrer,
+
+		[Parameter()]
+		[string] $Type = ""
 	)
 
-	$comment = [Comment]::new($Author)
-	$comment.ToDo = $ToDo
+	$comment = [Comment]::new($Content, $Author)
+	$comment.Context = $Context
+	$comment.Date = $Date
+	$comment.Permalink = $Permalink
+	$comment.PostModified = $ToDo
+	$comment.RecheckReason = $RecheckReason
+	$comment.Referrer = $Referrer
+	$comment.Type = $Type
 	$comment
 }
