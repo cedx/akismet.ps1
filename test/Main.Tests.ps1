@@ -35,6 +35,7 @@ Describe "Main" {
 			Type = "blog-post"
 		}
 
+		[SuppressMessage("PSUseDeclaredVarsMoreThanAssignments", "")]
 		$client = New-AkismetClient -ApiKey $Env:AKISMET_API_KEY -Blog "https://github.com/cedx/akismet.ps1" -IsTest
 		$ham = New-AkismetComment @ham
 		$spam = New-AkismetComment @spam
