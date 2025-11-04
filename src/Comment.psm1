@@ -17,7 +17,7 @@ class Comment {
 	.SYNOPSIS
 		The comment's content.
 	#>
-	[string] $Content = ""
+	[string] $Content
 
 	<#
 	.SYNOPSIS
@@ -70,6 +70,20 @@ class Comment {
 	#>
 	Comment([Author] $Author) {
 		$this.Author = $Author
+		$this.Content = ""
+	}
+
+	<#
+	.SYNOPSIS
+		Creates a new comment.
+	.PARAMETER Content
+		The comment's content.
+	.PARAMETER Author
+		The comment's author.
+	#>
+	Comment([string] $Content, [Author] $Author) {
+		$this.Author = $Author
+		$this.Content = $Content
 	}
 
 	<#

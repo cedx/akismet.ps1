@@ -18,8 +18,7 @@ Describe "Comment" {
 			$author = [Author]::new("Cédric Belin", "192.168.0.1")
 			$author.UserAgent = "Doom/6.6.6"
 
-			$comment = [Comment]::new($author)
-			$comment.Content = "A user comment."
+			$comment = [Comment]::new("A user comment.", $author)
 			$comment.Date = [datetime]::Parse("2000-01-01T00:00:00Z", [CultureInfo]::InvariantCulture, [DateTimeStyles]::RoundtripKind)
 			$comment.Referrer = "https://cedric-belin.fr"
 			$comment.Type = [CommentType]::BlogPost
