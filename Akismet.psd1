@@ -15,7 +15,14 @@
 	VariablesToExport = @()
 
 	FunctionsToExport = @(
-
+		"New-Author"
+		"New-Blog"
+		"New-Client"
+		"New-Comment"
+		"Submit-Ham"
+		"Submit-Spam"
+		"Test-Comment"
+		"Test-Key"
 	)
 
 	NestedModules = @(

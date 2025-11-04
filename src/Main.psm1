@@ -1,3 +1,4 @@
+using namespace System.Diagnostics.CodeAnalysis
 using module ./Author.psm1
 using module ./Blog.psm1
 using module ./CheckResult.psm1
@@ -7,12 +8,12 @@ using module ./Comment.psm1
 <#
 .SYNOPSIS
 	Creates a new author.
+.PARAMETER Name
+	The author's name. If you set it to `"viagra-test-123"`, Akismet will always return `$true`.
 .PARAMETER IPAddress
 	The author's IP address.
 .PARAMETER Email
 	The author's mail address. If you set it to `"akismet-guaranteed-spam@example.com"`, Akismet will always return `$true`.
-.PARAMETER Name
-	The author's name. If you set it to `"viagra-test-123"`, Akismet will always return `$true`.
 .PARAMETER Role
 	The author's role. If you set it to `"administrator"`, Akismet will always return `$false`.
 .PARAMETER Url
@@ -25,16 +26,17 @@ using module ./Comment.psm1
 function New-Author {
 	[CmdletBinding()]
 	[OutputType([Author])]
+	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
+		[Parameter(Position = 0)]
+		[string] $Name = "",
+
 		[Parameter(Mandatory)]
 		[ValidateNotNull()]
 		[ipaddress] $IPAddress,
 
 		[Parameter()]
 		[string] $Email = "",
-
-		[Parameter(Position = 0)]
-		[string] $Name = "",
 
 		[Parameter()]
 		[string] $Role = "",
@@ -69,6 +71,7 @@ function New-Author {
 function New-Blog {
 	[CmdletBinding()]
 	[OutputType([Blog])]
+	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
 		[Parameter(Mandatory, Position = 0)]
 		[ValidateNotNull()]
@@ -98,20 +101,23 @@ function New-Blog {
 	Value indicating whether the client operates in test mode.
 .PARAMETER Uri
 	The base URL of the remote API endpoint.
+.PARAMETER UserAgent
+	The user agent string to use when making requests.
 .OUTPUTS
 	The newly created Akismet client.
 #>
 function New-Client {
 	[CmdletBinding()]
 	[OutputType([Client])]
+	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
 		[Parameter(Mandatory, Position = 0)]
 		[ValidateNotNullOrWhiteSpace()]
 		[string] $ApiKey,
 
-		[Parameter(Mandatory, Position = 1)]
+		[Parameter(Mandatory)]
 		[ValidateNotNull()]
-		[Blog] $Blog,
+		[object] $Blog,
 
 		[Parameter()]
 		[bool] $IsTest = $false,
@@ -123,7 +129,7 @@ function New-Client {
 		[string] $UserAgent = "PowerShell/$($PSVersionTable.PSVersion) | Akismet/$([Client]::Version)"
 	)
 
-	$client = [Client]::new($ApiKey, $Blog, $Uri)
+	$client = [Client]::new($ApiKey, $Blog -is [Blog] ? $Blog : [Blog]::new($Blog), $Uri)
 	$client.IsTest = $IsTest
 	$client.UserAgent = $UserAgent
 	$client
@@ -156,6 +162,7 @@ function New-Client {
 function New-Comment {
 	[CmdletBinding()]
 	[OutputType([Comment])]
+	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
 		[Parameter(Position = 0)]
 		[string] $Content = "",
@@ -190,9 +197,126 @@ function New-Comment {
 	$comment.Context = $Context
 	$comment.Date = $Date
 	$comment.Permalink = $Permalink
-	$comment.PostModified = $ToDo
+	$comment.PostModified = $PostModified
 	$comment.RecheckReason = $RecheckReason
 	$comment.Referrer = $Referrer
 	$comment.Type = $Type
 	$comment
+}
+
+<#
+.SYNOPSIS
+	Submits the specified comment that was incorrectly marked as spam but should not have been.
+.PARAMETER Client
+	The Akismet client used to submit the comment.
+.PARAMETER Comment
+	The comment to be submitted.
+.INPUTS
+	The comment to be submitted.
+#>
+function Submit-Ham {
+	[CmdletBinding()]
+	[OutputType([void])]
+	param (
+		[Parameter(Mandatory)]
+		[ValidateNotNull()]
+		[Client] $Client,
+
+		[Parameter(Mandatory, ValueFromPipeline)]
+		[ValidateNotNull()]
+		[Comment] $Comment
+	)
+
+	process {
+		$Client.SubmitHam($Comment)
+	}
+}
+
+<#
+.SYNOPSIS
+	Submits the specified comment that was not marked as spam but should have been.
+.PARAMETER Client
+	The Akismet client used to submit the comment.
+.PARAMETER Comment
+	The comment to be submitted.
+.INPUTS
+	The comment to be submitted.
+#>
+function Submit-Spam {
+	[CmdletBinding()]
+	[OutputType([void])]
+	param (
+		[Parameter(Mandatory)]
+		[ValidateNotNull()]
+		[Client] $Client,
+
+		[Parameter(Mandatory, ValueFromPipeline)]
+		[ValidateNotNull()]
+		[Comment] $Comment
+	)
+
+	process {
+		$Client.SubmitSpam($Comment)
+	}
+}
+
+<#
+.SYNOPSIS
+	Checks the specified comment against the service database, and returns a value indicating whether it is spam.
+.PARAMETER Client
+	The Akismet client used to submit the comment.
+.PARAMETER Comment
+	The comment to be submitted.
+.INPUTS
+	The comment to be submitted.
+.OUTPUTS
+	A value indicating whether the specified comment is spam.
+#>
+function Test-Comment {
+	[CmdletBinding()]
+	[OutputType([CheckResult])]
+	param (
+		[Parameter(Mandatory)]
+		[ValidateNotNull()]
+		[Client] $Client,
+
+		[Parameter(Mandatory, ValueFromPipeline)]
+		[ValidateNotNull()]
+		[Comment] $Comment
+	)
+
+	process {
+		$Client.CheckComment($Comment)
+	}
+}
+
+<#
+.SYNOPSIS
+	Checks the API key against the service database, and returns a value indicating whether it is valid.
+.PARAMETER ApiKey
+	The Akismet API key.
+.PARAMETER Blog
+	The front page or home URL of the instance making requests.
+.INPUTS
+	The Akismet API key.
+.OUTPUTS
+	`$true` if the specified API key is valid, otherwise `$false`.
+#>
+function Test-Key {
+	[CmdletBinding()]
+	[OutputType([bool])]
+	param (
+		[Parameter(Mandatory, Position = 0, ValueFromPipeline)]
+		[ValidateNotNullOrWhiteSpace()]
+		[string] $ApiKey,
+
+		[Parameter(Mandatory)]
+		[ValidateNotNull()]
+		[object] $Blog
+	)
+
+	process {
+		$client = [Client]::new($ApiKey, $Blog -is [Blog] ? $Blog : [Blog]::new($Blog))
+		$client.VerifyKey()
+	}
 }
