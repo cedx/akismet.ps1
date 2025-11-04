@@ -20,7 +20,7 @@ class Client {
 	.SYNOPSIS
 		The package version.
 	#>
-	hidden static [string] $Version = "1.0.0"
+	hidden static [string] $Version = "2.0.0"
 
 	<#
 	.SYNOPSIS
