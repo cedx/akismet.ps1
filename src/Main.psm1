@@ -1,4 +1,5 @@
 using namespace System.Diagnostics.CodeAnalysis
+using namespace System.Text
 using module ./Author.psm1
 using module ./Blog.psm1
 using module ./CheckResult.psm1
@@ -78,14 +79,14 @@ function New-Blog {
 		[uri] $Url,
 
 		[Parameter()]
-		[Encoding] $Charset,
+		[object] $Charset,
 
 		[ValidateNotNull()]
 		[string[]] $Languages = @()
 	)
 
 	$blog = [Blog]::new($Url)
-	$blog.Charset = $Charset
+	$blog.Charset = $Charset -is [Encoding] ? $Charset : [Encoding]::GetEncoding($Charset)
 	$blog.Languages = $Languages
 	$blog
 }
@@ -120,7 +121,7 @@ function New-Client {
 		[object] $Blog,
 
 		[Parameter()]
-		[bool] $IsTest = $false,
+		[switch] $IsTest,
 
 		[ValidateNotNull()]
 		[uri] $Uri = "https://rest.akismet.com/",
@@ -262,6 +263,37 @@ function Submit-Spam {
 
 <#
 .SYNOPSIS
+	Checks the API key against the service database, and returns a value indicating whether it is valid.
+.PARAMETER ApiKey
+	The Akismet API key.
+.PARAMETER Blog
+	The front page or home URL of the instance making requests.
+.INPUTS
+	The Akismet API key.
+.OUTPUTS
+	`$true` if the specified API key is valid, otherwise `$false`.
+#>
+function Test-ApiKey {
+	[CmdletBinding()]
+	[OutputType([bool])]
+	param (
+		[Parameter(Mandatory, Position = 0, ValueFromPipeline)]
+		[ValidateNotNullOrWhiteSpace()]
+		[string] $ApiKey,
+
+		[Parameter(Mandatory)]
+		[ValidateNotNull()]
+		[object] $Blog
+	)
+
+	process {
+		$client = [Client]::new($ApiKey, $Blog -is [Blog] ? $Blog : [Blog]::new($Blog))
+		$client.VerifyKey()
+	}
+}
+
+<#
+.SYNOPSIS
 	Checks the specified comment against the service database, and returns a value indicating whether it is spam.
 .PARAMETER Client
 	The Akismet client used to submit the comment.
@@ -287,36 +319,5 @@ function Test-Comment {
 
 	process {
 		$Client.CheckComment($Comment)
-	}
-}
-
-<#
-.SYNOPSIS
-	Checks the API key against the service database, and returns a value indicating whether it is valid.
-.PARAMETER ApiKey
-	The Akismet API key.
-.PARAMETER Blog
-	The front page or home URL of the instance making requests.
-.INPUTS
-	The Akismet API key.
-.OUTPUTS
-	`$true` if the specified API key is valid, otherwise `$false`.
-#>
-function Test-Key {
-	[CmdletBinding()]
-	[OutputType([bool])]
-	param (
-		[Parameter(Mandatory, Position = 0, ValueFromPipeline)]
-		[ValidateNotNullOrWhiteSpace()]
-		[string] $ApiKey,
-
-		[Parameter(Mandatory)]
-		[ValidateNotNull()]
-		[object] $Blog
-	)
-
-	process {
-		$client = [Client]::new($ApiKey, $Blog -is [Blog] ? $Blog : [Blog]::new($Blog))
-		$client.VerifyKey()
 	}
 }

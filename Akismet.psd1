@@ -21,8 +21,8 @@
 		"New-Comment"
 		"Submit-Ham"
 		"Submit-Spam"
+		"Test-ApiKey"
 		"Test-Comment"
-		"Test-Key"
 	)
 
 	NestedModules = @(
@@ -30,7 +30,7 @@
 		"src/Blog.psm1"
 		"src/CheckResult.psm1"
 		"src/Client.psm1"
-		"src/Commen.psm1"
+		"src/Comment.psm1"
 	)
 
 	PrivateData = @{
