@@ -4,16 +4,9 @@
 #>
 Import-Module Akismet
 
-const blog = new Blog({url: "https://www.yourblog.com"});
-const client = new Client("123YourAPIKey", blog);
+$author = New-AkismetAuthor -IPAddress "127.0.0.1" -UserAgent "Spam Bot/6.6.6"
+$comment = New-AkismetComment "Spam!" -Author $author
 
-const comment = new Comment({
-	content: "Spam!",
-	author: new Author({
-		ipAddress: "192.168.123.456",
-		userAgent: "Spam Bot/6.6.6"
-	})
-});
-
-await client.submitSpam(comment);
-console.log("The comment was successfully submitted as spam.");
+$client = New-AkismetClient -ApiKey "123YourAPIKey" -Blog "https://www.yourblog.com"
+Submit-AkismetSpam -Client $client -Comment $comment
+Write-Output "The comment was successfully submitted as spam."
