@@ -1,6 +1,6 @@
 ﻿@{
 	DefaultCommandPrefix = "Akismet"
-	ModuleVersion = "0.1.0"
+	ModuleVersion = "1.0.0"
 	PowerShellVersion = "7.4"
 	RootModule = "src/Main.psm1"
 

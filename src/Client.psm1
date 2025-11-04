@@ -20,7 +20,7 @@ class Client {
 	.SYNOPSIS
 		The package version.
 	#>
-	hidden static [string] $Version = "6.6.6"
+	hidden static [string] $Version = "1.0.0"
 
 	<#
 	.SYNOPSIS
@@ -53,6 +53,7 @@ class Client {
 	.SYNOPSIS
 		The user agent string to use when making requests.
 	#>
+	[ValidateNotNullOrWhiteSpace()]
 	[string] $UserAgent = "PowerShell/$($PSVersionTable.PSVersion) | Akismet/$([Client]::Version)"
 
 	<#
