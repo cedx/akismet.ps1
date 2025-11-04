@@ -1,3 +1,5 @@
+using namespace System.Diagnostics.CodeAnalysis
+
 <#
 .SYNOPSIS
 	Tests the features of the `Main` module.
@@ -36,7 +38,7 @@ Describe "Main" {
 		}
 
 		[SuppressMessage("PSUseDeclaredVarsMoreThanAssignments", "")]
-		$client = New-AkismetClient -ApiKey $Env:AKISMET_API_KEY -Blog "https://github.com/cedx/akismet.ps1" -IsTest
+		$client = New-AkismetClient -ApiKey $Env:AKISMET_API_KEY -Blog "https://github.com/cedx/akismet.ps1" -WhatIf
 		$ham = New-AkismetComment @ham
 		$spam = New-AkismetComment @spam
 	}

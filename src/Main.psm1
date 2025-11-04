@@ -98,12 +98,12 @@ function New-Blog {
 	The Akismet API key.
 .PARAMETER Blog
 	The front page or home URL of the instance making requests.
-.PARAMETER IsTest
-	Value indicating whether the client operates in test mode.
 .PARAMETER Uri
 	The base URL of the remote API endpoint.
 .PARAMETER UserAgent
 	The user agent string to use when making requests.
+.PARAMETER WhatIf
+	Value indicating whether the client operates in test mode.
 .OUTPUTS
 	The newly created Akismet client.
 #>
@@ -111,6 +111,7 @@ function New-Client {
 	[CmdletBinding()]
 	[OutputType([Client])]
 	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
+	[SuppressMessage("PSUseSupportsShouldProcess", "")]
 	param (
 		[Parameter(Mandatory, Position = 0)]
 		[ValidateNotNullOrWhiteSpace()]
@@ -120,18 +121,18 @@ function New-Client {
 		[ValidateNotNull()]
 		[object] $Blog,
 
-		[Parameter()]
-		[switch] $IsTest,
-
 		[ValidateNotNull()]
 		[uri] $Uri = "https://rest.akismet.com/",
 
 		[ValidateNotNullOrWhiteSpace()]
-		[string] $UserAgent = "PowerShell/$($PSVersionTable.PSVersion) | Akismet/$([Client]::Version)"
+		[string] $UserAgent = "PowerShell/$($PSVersionTable.PSVersion) | Akismet/$([Client]::Version)",
+
+		[Parameter()]
+		[switch] $WhatIf
 	)
 
 	$client = [Client]::new($ApiKey, $Blog -is [Blog] ? $Blog : [Blog]::new($Blog), $Uri)
-	$client.IsTest = $IsTest
+	$client.IsTest = $WhatIf
 	$client.UserAgent = $UserAgent
 	$client
 }
