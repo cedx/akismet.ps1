@@ -33,7 +33,6 @@ function New-Author {
 		[string] $Name = "",
 
 		[Parameter(Mandatory)]
-		[ValidateNotNull()]
 		[ipaddress] $IPAddress,
 
 		[Parameter()]
@@ -75,18 +74,17 @@ function New-Blog {
 	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
 		[Parameter(Mandatory, Position = 0)]
-		[ValidateNotNull()]
 		[uri] $Url,
 
 		[Parameter()]
-		[object] $Charset,
+		[object] $Charset = "",
 
 		[ValidateNotNull()]
 		[string[]] $Languages = @()
 	)
 
 	$blog = [Blog]::new($Url)
-	$blog.Charset = $Charset -is [Encoding] ? $Charset : [Encoding]::GetEncoding($Charset)
+	if ($Charset) { $blog.Charset = $Charset -is [Encoding] ? $Charset : [Encoding]::GetEncoding($Charset) }
 	$blog.Languages = $Languages
 	$blog
 }
@@ -114,11 +112,9 @@ function New-Client {
 	[SuppressMessage("PSUseSupportsShouldProcess", "")]
 	param (
 		[Parameter(Mandatory, Position = 0)]
-		[ValidateNotNullOrWhiteSpace()]
 		[string] $ApiKey,
 
 		[Parameter(Mandatory)]
-		[ValidateNotNull()]
 		[object] $Blog,
 
 		[ValidateNotNull()]
@@ -170,7 +166,6 @@ function New-Comment {
 		[string] $Content = "",
 
 		[Parameter(Mandatory)]
-		[ValidateNotNull()]
 		[Author] $Author,
 
 		[ValidateNotNull()]
@@ -221,11 +216,9 @@ function Submit-Ham {
 	[OutputType([void])]
 	param (
 		[Parameter(Mandatory)]
-		[ValidateNotNull()]
 		[Client] $Client,
 
 		[Parameter(Mandatory, ValueFromPipeline)]
-		[ValidateNotNull()]
 		[Comment] $Comment
 	)
 
@@ -249,11 +242,9 @@ function Submit-Spam {
 	[OutputType([void])]
 	param (
 		[Parameter(Mandatory)]
-		[ValidateNotNull()]
 		[Client] $Client,
 
 		[Parameter(Mandatory, ValueFromPipeline)]
-		[ValidateNotNull()]
 		[Comment] $Comment
 	)
 
@@ -279,11 +270,9 @@ function Test-ApiKey {
 	[OutputType([bool])]
 	param (
 		[Parameter(Mandatory, Position = 0, ValueFromPipeline)]
-		[ValidateNotNullOrWhiteSpace()]
 		[string] $ApiKey,
 
 		[Parameter(Mandatory)]
-		[ValidateNotNull()]
 		[object] $Blog
 	)
 
@@ -310,11 +299,9 @@ function Test-Comment {
 	[OutputType([CheckResult])]
 	param (
 		[Parameter(Mandatory)]
-		[ValidateNotNull()]
 		[Client] $Client,
 
 		[Parameter(Mandatory, ValueFromPipeline)]
-		[ValidateNotNull()]
 		[Comment] $Comment
 	)
 
