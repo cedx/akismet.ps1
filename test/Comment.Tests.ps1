@@ -19,7 +19,7 @@ Describe "Comment" {
 			$author.UserAgent = "Doom/6.6.6"
 
 			$comment = [Comment]::new("A user comment.", $author)
-			$comment.Date = [datetime]::Parse("2000-01-01T00:00:00Z", [CultureInfo]::InvariantCulture, [DateTimeStyles]::RoundtripKind)
+			$comment.Date = [datetime]::Parse("2000-01-01T00:00:00Z", [cultureinfo]::InvariantCulture, [DateTimeStyles]::RoundtripKind)
 			$comment.Referrer = "https://cedric-belin.fr"
 			$comment.Type = [CommentType]::BlogPost
 
