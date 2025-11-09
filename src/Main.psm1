@@ -77,7 +77,11 @@ function New-Blog {
 		[uri] $Url,
 
 		[Parameter()]
-		[object] $Charset = "",
+		[ValidateScript(
+			{ ($_ -is [Encoding]) -or ($_ -in ([Encoding]::GetEncodings()).ForEach{ $_.GetEncoding().WebName }) },
+			ErrorMessage = "The character encoding is invalid."
+		)]
+		[object] $Charset,
 
 		[ValidateNotNull()]
 		[string[]] $Languages = @()
@@ -115,6 +119,10 @@ function New-Client {
 		[string] $ApiKey,
 
 		[Parameter(Mandatory)]
+		[ValidateScript(
+			{ ($_ -is [Blog]) -or ($_ -is [string]) -or ($_ -is [uri]) },
+			ErrorMessage = "The front page or home URL is invalid."
+		)]
 		[object] $Blog,
 
 		[ValidateNotNull()]
@@ -273,6 +281,10 @@ function Test-ApiKey {
 		[string] $ApiKey,
 
 		[Parameter(Mandatory)]
+		[ValidateScript(
+			{ ($_ -is [Blog]) -or ($_ -is [string]) -or ($_ -is [uri]) },
+			ErrorMessage = "The front page or home URL is invalid."
+		)]
 		[object] $Blog
 	)
 
