@@ -30,22 +30,22 @@ function New-Author {
 	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
 		[Parameter(Position = 0)]
-		[string] $Name = "",
+		[string] $Name,
 
 		[Parameter(Mandatory)]
 		[ipaddress] $IPAddress,
 
 		[Parameter()]
-		[string] $Email = "",
+		[string] $Email,
 
 		[Parameter()]
-		[string] $Role = "",
+		[string] $Role,
 
 		[Parameter()]
 		[uri] $Url,
 
 		[Parameter()]
-		[string] $UserAgent = ""
+		[string] $UserAgent
 	)
 
 	$author = [Author]::new($Name, $IPAddress)
@@ -171,7 +171,7 @@ function New-Comment {
 	[SuppressMessage("PSUseShouldProcessForStateChangingFunctions", "")]
 	param (
 		[Parameter(Position = 0)]
-		[string] $Content = "",
+		[string] $Content,
 
 		[Parameter(Mandatory)]
 		[Author] $Author,
@@ -189,13 +189,13 @@ function New-Comment {
 		[Nullable[datetime]] $PostModified,
 
 		[Parameter()]
-		[string] $RecheckReason = "",
+		[string] $RecheckReason,
 
 		[Parameter()]
 		[uri] $Referrer,
 
 		[Parameter()]
-		[string] $Type = ""
+		[string] $Type
 	)
 
 	$comment = [Comment]::new($Content, $Author)
