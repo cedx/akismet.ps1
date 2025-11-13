@@ -1,6 +1,4 @@
 # Akismet for PowerShell
-![PowerShell](https://badgen.net/static/powershell/%3E%3D7.4/green) ![PSGallery](https://badgen.net/static/module/v2.0.0/blue) ![License](https://badgen.net/static/license/MIT/blue)
-
 Prevent comment spam using [Akismet](https://akismet.com) service, in [PowerShell](https://learn.microsoft.com/en-us/powershell).
 
 ## Documentation
