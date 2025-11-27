@@ -6,4 +6,43 @@ namespace Belin.Akismet.Cmdlets;
 [Cmdlet(VerbsCommon.New, "Client")]
 public class NewClient: Cmdlet {
 
+	/// <summary>
+	/// The Akismet API key.
+	/// </summary>
+	[Parameter(Mandatory = true, Position = 0)]
+	public required string ApiKey { get; set; }
+
+	/// <summary>
+	/// The front page or home URL of the instance making requests.
+	/// </summary>
+	[Parameter(Mandatory = true)]
+	public required Blog Blog { get; set; }
+
+	/// <summary>
+	/// Value indicating whether the client operates in test mode.
+	/// </summary>
+	[Parameter]
+	public SwitchParameter WhatIf { get; set; }
+
+	/// <summary>
+	/// The base URL of the remote API endpoint.
+	/// </summary>
+	[Parameter]
+	[ValidateNotNullOrWhiteSpace()]
+	public string Uri { get; set; } = "https://rest.akismet.com";
+
+	/// <summary>
+	/// The user agent string to use when making requests.
+	/// </summary>
+	[Parameter]
+	[ValidateNotNullOrWhiteSpace()]
+	public string UserAgent { get; set; } = $"PowerShell/{PSVersionInfo.PSVersion.ToString(3)} | Akismet/{Client.Version}";
+
+	/// <summary>
+	/// Performs execution of this command.
+	/// </summary>
+	protected override void ProcessRecord() => WriteObject(new Client(ApiKey, Blog, Uri) {
+		IsTest = WhatIf,
+		UserAgent = UserAgent
+	});
 }
