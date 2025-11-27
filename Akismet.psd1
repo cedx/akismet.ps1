@@ -1,4 +1,4 @@
-﻿@{
+@{
 	DefaultCommandPrefix = "Akismet"
 	ModuleVersion = "2.0.0"
 	PowerShellVersion = "7.4"
@@ -11,10 +11,10 @@
 	GUID = "f986768a-1709-4142-815e-ce3be0db833e"
 
 	AliasesToExport = @()
-	CmdletsToExport = @()
+	FunctionsToExport = @()
 	VariablesToExport = @()
 
-	FunctionsToExport = @(
+	CmdletsToExport = @(
 		"New-Author"
 		"New-Blog"
 		"New-Client"
@@ -23,14 +23,6 @@
 		"Submit-Spam"
 		"Test-ApiKey"
 		"Test-Comment"
-	)
-
-	NestedModules = @(
-		"src/Author.psm1"
-		"src/Blog.psm1"
-		"src/CheckResult.psm1"
-		"src/Client.psm1"
-		"src/Comment.psm1"
 	)
 
 	PrivateData = @{
