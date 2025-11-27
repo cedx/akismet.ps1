@@ -38,22 +38,15 @@
 		<File Path="tool/Update.ps1" />
 		<File Path="tool/Version.ps1" />
 	</Folder>
-	<Folder Name="/Sources/">
-		<File Path="src/Author.psm1" />
-		<File Path="src/Blog.psm1" />
-		<File Path="src/CheckResult.psm1" />
-		<File Path="src/Client.psm1" />
-		<File Path="src/Comment.psm1" />
-		<File Path="src/Main.psm1" />
-	</Folder>
-	<Folder Name="/Tests/">
-		<File Path="test/Author.Tests.ps1" />
-		<File Path="test/Blog.Tests.ps1" />
-		<File Path="test/Client.Tests.ps1" />
-		<File Path="test/Comment.Tests.ps1" />
-		<File Path="test/Main.Tests.ps1" />
-	</Folder>
 	<Folder Name="/Workflows/">
 		<File Path=".github/workflows/ContinuousIntegration.yaml" />
 	</Folder>
+	<Project Path="src/Akismet.esproj">
+		<Build />
+		<Deploy />
+	</Project>
+	<Project Path="test/Akismet.Tests.esproj">
+		<Build />
+		<Deploy />
+	</Project>
 </Solution>
