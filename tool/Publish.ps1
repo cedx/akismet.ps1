@@ -10,7 +10,7 @@ $output = "var/$($module.BaseName)"
 New-Item $output -ItemType Directory | Out-Null
 Copy-Item $module $output
 Copy-Item *.md $output
-Copy-Item src $output -Recurse
+Copy-Item bin $output -Recurse
 
 Compress-PSResource $output var
 Publish-PSResource -ApiKey $Env:PSGALLERY_API_KEY -NupkgPath "var/$($module.BaseName).$version.nupkg"

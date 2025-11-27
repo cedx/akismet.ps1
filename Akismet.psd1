@@ -25,6 +25,10 @@
 		"Test-Comment"
 	)
 
+	RequiredAssemblies = @(
+		"bin/Belin.Akismet.Cmdlets.dll"
+	)
+
 	PrivateData = @{
 		PSData = @{
 			LicenseUri = "https://github.com/cedx/akismet.ps1/blob/main/License.md"
