@@ -41,10 +41,7 @@
 	<Folder Name="/Workflows/">
 		<File Path=".github/workflows/ContinuousIntegration.yaml" />
 	</Folder>
-	<Project Path="src/Akismet.esproj">
-		<Build />
-		<Deploy />
-	</Project>
+	<Project Path="src/Akismet.csproj" />
 	<Project Path="test/Akismet.Tests.esproj">
 		<Build />
 		<Deploy />
