@@ -22,6 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Using Include="Akismet" />
 		<Using Include="System.Management.Automation" />
 	</ItemGroup>
 </Project>
