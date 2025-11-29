@@ -4,6 +4,7 @@ namespace Belin.Akismet.Cmdlets;
 /// Checks the specified comment against the service database, and returns a value indicating whether it is spam.
 /// </summary>
 [Cmdlet(VerbsDiagnostic.Test, "Comment")]
+[OutputType(typeof(CheckResult))]
 public class TestComment: Cmdlet {
 
 	/// <summary>

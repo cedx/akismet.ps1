@@ -6,6 +6,7 @@ using System.Text;
 /// Creates a new blog.
 /// </summary>
 [Cmdlet(VerbsCommon.New, "Blog")]
+[OutputType(typeof(Blog))]
 public class NewBlog: Cmdlet {
 	
 	/// <summary>
@@ -25,13 +26,13 @@ public class NewBlog: Cmdlet {
 	/// The blog or site URL.
 	/// </summary>
 	[Parameter(Mandatory = true, Position = 0)]
-	public required string Url { get; set; }
+	public required Uri Url { get; set; }
 
 	/// <summary>
 	/// Performs execution of this command.
 	/// </summary>
 	protected override void ProcessRecord() => WriteObject(new Blog(Url) {
-		Charset = string.IsNullOrEmpty(Charset) ? null : Encoding.GetEncoding(Charset),
+		Charset = string.IsNullOrWhiteSpace(Charset) ? null : Encoding.GetEncoding(Charset),
 		Languages = Languages
 	});
 }
@@ -49,7 +50,7 @@ internal class ValidateCharsetAttribute: ValidateArgumentsAttribute {
 	/// <exception cref="ValidationMetadataException">The validation failed.</exception>
   protected override void Validate(object arguments, EngineIntrinsics engineIntrinsics) {
 		var charset = arguments as string;
-		if (string.IsNullOrEmpty(charset)) return;
+		if (string.IsNullOrWhiteSpace(charset)) return;
 		if (Encoding.GetEncodings().Any(value => charset.Equals(value.GetEncoding().WebName, StringComparison.OrdinalIgnoreCase))) return;
 		throw new ValidationMetadataException("The character encoding is invalid.");
   }

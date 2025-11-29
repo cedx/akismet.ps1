@@ -1,9 +1,12 @@
 namespace Belin.Akismet.Cmdlets;
 
+using System.Net;
+
 /// <summary>
 /// Creates a new author.
 /// </summary>
 [Cmdlet(VerbsCommon.New, "Author")]
+[OutputType(typeof(Author))]
 public class NewAuthor: Cmdlet {
 
 	/// <summary>
@@ -16,7 +19,7 @@ public class NewAuthor: Cmdlet {
 	/// The author's IP address.
 	/// </summary>
 	[Parameter(Mandatory = true)]
-	public required string IPAddress { get; set; }
+	public required IPAddress IPAddress { get; set; }
 
 	/// <summary>
 	/// The author's name. If you set it to `"viagra-test-123"`, Akismet will always return `$true`.
@@ -34,7 +37,7 @@ public class NewAuthor: Cmdlet {
 	/// The URL of the author's website.
 	/// </summary>
 	[Parameter]
-	public string Url { get; set; } = "";
+	public Uri? Url { get; set; }
 
 	/// <summary>
 	/// The author's user agent, that is the string identifying the Web browser used to submit comments.
@@ -49,7 +52,7 @@ public class NewAuthor: Cmdlet {
 		Email = Email,
 		Name = Name,
 		Role = Role,
-		Url = string.IsNullOrEmpty(Url) ? null : new Uri(Url, UriKind.Absolute),
+		Url = Url,
 		UserAgent = UserAgent
 	});
 }

@@ -4,6 +4,7 @@ namespace Belin.Akismet.Cmdlets;
 /// Submits the specified comment that was incorrectly marked as spam but should not have been.
 /// </summary>
 [Cmdlet(VerbsLifecycle.Submit, "Ham")]
+[OutputType(typeof(void))]
 public class SubmitHam: Cmdlet {
 
 	/// <summary>

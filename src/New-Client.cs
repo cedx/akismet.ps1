@@ -4,6 +4,7 @@ namespace Belin.Akismet.Cmdlets;
 /// Creates a new Akismet client.
 /// </summary>
 [Cmdlet(VerbsCommon.New, "Client")]
+[OutputType(typeof(Client))]
 public class NewClient: Cmdlet {
 
 	/// <summary>
@@ -28,8 +29,7 @@ public class NewClient: Cmdlet {
 	/// The base URL of the remote API endpoint.
 	/// </summary>
 	[Parameter]
-	[ValidateNotNullOrWhiteSpace()]
-	public string Uri { get; set; } = "https://rest.akismet.com";
+	public Uri? Uri { get; set; }
 
 	/// <summary>
 	/// The user agent string to use when making requests.

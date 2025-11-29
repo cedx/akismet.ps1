@@ -4,6 +4,7 @@ namespace Belin.Akismet.Cmdlets;
 /// Creates a new comment.
 /// </summary>
 [Cmdlet(VerbsCommon.New, "Comment")]
+[OutputType(typeof(Comment))]
 public class NewComment: Cmdlet {
 
 	/// <summary>
@@ -34,7 +35,7 @@ public class NewComment: Cmdlet {
 	/// The permanent location of the entry the comment is submitted to.
 	/// </summary>
 	[Parameter]
-	public string Permalink { get; set; } = "";
+	public Uri? Permalink { get; set; }
 
 	/// <summary>
 	/// The UTC timestamp of the publication time for the post, page or thread on which the comment was posted.
@@ -52,7 +53,7 @@ public class NewComment: Cmdlet {
 	/// The URL of the webpage that linked to the entry being requested.
 	/// </summary>
 	[Parameter]
-	public string Referrer { get; set; } = "";
+	public Uri? Referrer { get; set; }
 
 	/// <summary>
 	/// The comment's type.
@@ -67,10 +68,10 @@ public class NewComment: Cmdlet {
 		Content = Content,
 		Context = Context,
 		Date = Date,
-		Permalink = string.IsNullOrEmpty(Permalink) ? null : new Uri(Permalink, UriKind.Absolute),
+		Permalink = Permalink,
 		PostModified = PostModified,
 		RecheckReason = RecheckReason,
-		Referrer = string.IsNullOrEmpty(Referrer) ? null : new Uri(Referrer, UriKind.Absolute),
+		Referrer = Referrer,
 		Type = Type
 	});
 }
