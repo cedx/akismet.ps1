@@ -1,8 +1,8 @@
 @{
 	DefaultCommandPrefix = "Akismet"
-	ModuleVersion = "2.0.0"
-	PowerShellVersion = "7.4"
-	RootModule = "src/Main.psm1"
+	ModuleVersion = "3.0.0"
+	PowerShellVersion = "7.5"
+	RootModule = "bin/Belin.Akismet.Cmdlets.dll"
 
 	Author = "Cédric Belin <cedx@outlook.com>"
 	CompanyName = "Cedric-Belin.fr"
@@ -26,7 +26,7 @@
 	)
 
 	RequiredAssemblies = @(
-		"bin/Belin.Akismet.Cmdlets.dll"
+		"bin/Belin.Akismet.dll"
 	)
 
 	PrivateData = @{
