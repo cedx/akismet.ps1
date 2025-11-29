@@ -34,8 +34,7 @@ public class NewClient: Cmdlet {
 	/// <summary>
 	/// The user agent string to use when making requests.
 	/// </summary>
-	[Parameter]
-	[ValidateNotNullOrWhiteSpace()]
+	[Parameter, ValidateNotNullOrWhiteSpace]
 	public string UserAgent { get; set; } = $"PowerShell/{PSVersionInfo.PSVersion.ToString(3)} | Akismet/{Client.Version}";
 
 	/// <summary>

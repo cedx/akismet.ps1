@@ -8,12 +8,11 @@ using System.Text;
 [Cmdlet(VerbsCommon.New, "Blog")]
 [OutputType(typeof(Blog))]
 public class NewBlog: Cmdlet {
-	
+
 	/// <summary>
 	/// The character encoding for the values included in comments.
 	/// </summary>
-	[Parameter]
-	[ValidateCharset]
+	[Parameter, ValidateCharset]
 	public string? Charset { get; set; }
 
 	/// <summary>
