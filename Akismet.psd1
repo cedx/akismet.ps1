@@ -1,8 +1,8 @@
-﻿@{
+@{
 	DefaultCommandPrefix = "Akismet"
-	ModuleVersion = "2.0.0"
-	PowerShellVersion = "7.4"
-	RootModule = "src/Main.psm1"
+	ModuleVersion = "3.0.0"
+	PowerShellVersion = "7.5"
+	RootModule = "bin/Belin.Akismet.Cmdlets.dll"
 
 	Author = "Cédric Belin <cedx@outlook.com>"
 	CompanyName = "Cedric-Belin.fr"
@@ -11,10 +11,10 @@
 	GUID = "f986768a-1709-4142-815e-ce3be0db833e"
 
 	AliasesToExport = @()
-	CmdletsToExport = @()
+	FunctionsToExport = @()
 	VariablesToExport = @()
 
-	FunctionsToExport = @(
+	CmdletsToExport = @(
 		"New-Author"
 		"New-Blog"
 		"New-Client"
@@ -25,12 +25,8 @@
 		"Test-Comment"
 	)
 
-	NestedModules = @(
-		"src/Author.psm1"
-		"src/Blog.psm1"
-		"src/CheckResult.psm1"
-		"src/Client.psm1"
-		"src/Comment.psm1"
+	RequiredAssemblies = @(
+		"bin/Belin.Akismet.dll"
 	)
 
 	PrivateData = @{
