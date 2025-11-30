@@ -19,7 +19,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Belin.Akismet" Version="2.*" />
-		<PackageReference Include="System.Management.Automation" Version="7.*" PrivateAssets="All" />
+		<PackageReference Include="System.Management.Automation" Version="7.*" PrivateAssets="all" />
 	</ItemGroup>
 
 	<ItemGroup>
